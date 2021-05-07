@@ -1,2 +1,5 @@
 # Interpretando
-Interpretando - An IRC Bot that inteprets code
+## An IRC Bot that inteprets code
+
+### Dependencies
+IRC npm package
