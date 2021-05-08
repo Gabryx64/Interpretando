@@ -3,12 +3,21 @@ var path = require("path");
 var fs = require("fs");
 const { Console } = require("console");
 
-var lisp = require("./interpreters/lisp.js");
+var scheme = require("./interpreters/scheme.js");
+
+if(process.argv.length < 4)
+{
+    console.error("Usage: node ircbot.js {SERVER} \"{CHANNEL1}\" \"[CHANNEL2]\" \"[CHANNEL3]\"...")
+    process.exit(-1);
+}
+
+process.argv.shift();
+process.argv.shift();
 
 var config =
 {
-    channels: ["#fossbay"],
-    server: "irc.freenode.com",
+    server: process.argv.shift(),
+    channels: process.argv,
     botName: "Interpretando",
     userName: "interpret",
     autoRejoin: false,
@@ -29,12 +38,22 @@ function OnMessage(from, channel, text, message)
         bot.send("PRIVMSG", channel, "Interpretando - An IRC Bot that inteprets code");
         bot.send("PRIVMSG", channel, "Made by Gabryx86_64");
     }
-    else if(text.substr(0, prefix.length + 5) == prefix + "lisp ")
+    if(text == prefix + "help")
     {
-        var result = lisp.parse(text.substr(prefix.length + 5, text.length));
-        bot.send("PRIVMSG", channel, result != null ? result.toString() : "Error!");
+        bot.send("PRIVMSG", channel, "Interpretando - An IRC Bot that inteprets code");
+        bot.send("PRIVMSG", channel, "Usage: \";{language} {code}\"");
+        bot.send("PRIVMSG", channel, "Languages: scheme");
+        bot.send("PRIVMSG", channel, "Error format: \"{token index}: error: {error}\"");
+        bot.send("PRIVMSG", channel, "Other commands:");
+        bot.send("PRIVMSG", channel, "    - ;info -> sends info about Interpretando");
+        bot.send("PRIVMSG", channel, "    - ;help -> sends usages, languages and commands list");
     }
-
+    else if(text.substr(0, prefix.length + 7) == prefix + "scheme ")
+    {
+        var result = scheme.parse(text.substr(prefix.length + 7, text.length), channel);
+        if(result != null)
+            bot.send("PRIVMSG", channel, isNaN(result) ? result : result.toString());
+    }
 }
 bot.addListener("message", OnMessage);
 bot.addListener("action", OnMessage);
@@ -53,3 +72,10 @@ function OnError(message)
     console.log("IRC Error:", message);
 }
 bot.addListener("error", OnError);
+
+function send(command, channel, str)
+{
+    bot.send(command, channel, str);
+}
+
+module.exports.send = send;
