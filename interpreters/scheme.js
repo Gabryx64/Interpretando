@@ -216,6 +216,31 @@ function parseFunction(program, i, channel)
             var a = 0;
 
             i++;
+            if(tokens[i] != ")" && tokens[i + 1] != ")")
+            {
+                if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+
+                    a = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    a = parseFloat(tokens[i]);
+                }
+
+                if(isNaN(a))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                i++;
+            }
+
             while(true)
             {
                 if(i == tokens.length)
