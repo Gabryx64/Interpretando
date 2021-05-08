@@ -31,6 +31,381 @@ function parseFunction(program, i, channel)
     i++;
     switch(tokens[i])
     {
+        case "=":
+        {
+            var ret = "#t";
+
+            i++;
+            var a;
+
+            if(tokens[i] == "(")
+            {
+                var result = parseFunction(program, i, channel);
+                if(result == null)
+                    return null;
+                
+                a = result[0];
+                i = result[1];
+            }
+            else
+            {
+                a = parseFloat(tokens[i]);
+            }
+            
+            if(isNaN(a))
+            {
+                bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                return null;
+            }
+            
+            i++;
+            while(true)
+            {
+                if(i == tokens.length)
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected token ')'");
+                    return null;
+                }
+                
+                var b;
+                
+                if(tokens[i] == ")")
+                {
+                    break;
+                }
+                else if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+                    
+                    b = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    b = parseFloat(tokens[i]);
+                }
+                
+                if(isNaN(b))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                if(a != b)
+                {
+                    ret = "#f";
+                    break;
+                }
+
+                a = b;
+                i++;
+            }
+
+            return [ret, i];
+        }
+
+        case "<":
+        {
+            var ret = "#t";
+
+            i++;
+            var a;
+
+            if(tokens[i] == "(")
+            {
+                var result = parseFunction(program, i, channel);
+                if(result == null)
+                    return null;
+                
+                a = result[0];
+                i = result[1];
+            }
+            else
+            {
+                a = parseFloat(tokens[i]);
+            }
+            
+            if(isNaN(a))
+            {
+                bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                return null;
+            }
+            
+            i++;
+            while(true)
+            {
+                if(i == tokens.length)
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected token ')'");
+                    return null;
+                }
+                
+                var b;
+                
+                if(tokens[i] == ")")
+                {
+                    break;
+                }
+                else if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+                    
+                    b = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    b = parseFloat(tokens[i]);
+                }
+                
+                if(isNaN(b))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                if(a >= b)
+                {
+                    ret = "#f";
+                    break;
+                }
+
+                a = b;
+                i++;
+            }
+
+            return [ret, i];
+        }
+
+        case ">":
+        {
+            var ret = "#t";
+
+            i++;
+            var a;
+
+            if(tokens[i] == "(")
+            {
+                var result = parseFunction(program, i, channel);
+                if(result == null)
+                    return null;
+                
+                a = result[0];
+                i = result[1];
+            }
+            else
+            {
+                a = parseFloat(tokens[i]);
+            }
+            
+            if(isNaN(a))
+            {
+                bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                return null;
+            }
+            
+            i++;
+            while(true)
+            {
+                if(i == tokens.length)
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected token ')'");
+                    return null;
+                }
+                
+                var b;
+                
+                if(tokens[i] == ")")
+                {
+                    break;
+                }
+                else if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+                    
+                    b = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    b = parseFloat(tokens[i]);
+                }
+                
+                if(isNaN(b))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                if(a <= b)
+                {
+                    ret = "#f";
+                    break;
+                }
+
+                a = b;
+                i++;
+            }
+
+            return [ret, i];
+        }
+
+        case "<=":
+        {
+            var ret = "#t";
+
+            i++;
+            var a;
+
+            if(tokens[i] == "(")
+            {
+                var result = parseFunction(program, i, channel);
+                if(result == null)
+                    return null;
+                
+                a = result[0];
+                i = result[1];
+            }
+            else
+            {
+                a = parseFloat(tokens[i]);
+            }
+            
+            if(isNaN(a))
+            {
+                bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                return null;
+            }
+            
+            i++;
+            while(true)
+            {
+                if(i == tokens.length)
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected token ')'");
+                    return null;
+                }
+                
+                var b;
+                
+                if(tokens[i] == ")")
+                {
+                    break;
+                }
+                else if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+                    
+                    b = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    b = parseFloat(tokens[i]);
+                }
+                
+                if(isNaN(b))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                if(a > b)
+                {
+                    ret = "#f";
+                    break;
+                }
+
+                a = b;
+                i++;
+            }
+
+            return [ret, i];
+        }
+
+        case ">=":
+        {
+            var ret = "#t";
+
+            i++;
+            var a;
+
+            if(tokens[i] == "(")
+            {
+                var result = parseFunction(program, i, channel);
+                if(result == null)
+                    return null;
+                
+                a = result[0];
+                i = result[1];
+            }
+            else
+            {
+                a = parseFloat(tokens[i]);
+            }
+            
+            if(isNaN(a))
+            {
+                bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                return null;
+            }
+            
+            i++;
+            while(true)
+            {
+                if(i == tokens.length)
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected token ')'");
+                    return null;
+                }
+                
+                var b;
+                
+                if(tokens[i] == ")")
+                {
+                    break;
+                }
+                else if(tokens[i] == "(")
+                {
+                    var result = parseFunction(program, i, channel);
+                    if(result == null)
+                        return null;
+                    
+                    b = result[0];
+                    i = result[1];
+                }
+                else
+                {
+                    b = parseFloat(tokens[i]);
+                }
+                
+                if(isNaN(b))
+                {
+                    bot.send("PRIVMSG", channel, i.toString() + ": error: expected numeric value");
+                    return null;
+                }
+
+                if(a < b)
+                {
+                    ret = "#f";
+                    break;
+                }
+
+                a = b;
+                i++;
+            }
+
+            return [ret, i];
+        }
+
         case "zero?":
         {
             i++;
@@ -1017,6 +1392,22 @@ function tokenize(program)
 function modulo(a, b)
 {
     return a - b * Math.floor(a/b)
+}
+
+function parseComplex(str)
+{
+    var ret;
+
+    if(str.charAt(str.length - 1) == "i")
+    {
+        var stringret;
+        
+        const rePlus = new RegExp(letter, "+");
+        const reMin = new RegExp(letter, "-");
+
+        stringret = str.substr(0, str.length - 1).split("+").reverse();
+
+    }
 }
 
 module.exports =

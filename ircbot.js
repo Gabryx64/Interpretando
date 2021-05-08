@@ -1,7 +1,4 @@
 var irc = require("irc");
-var path = require("path");
-var fs = require("fs");
-const { Console } = require("console");
 
 var scheme = require("./interpreters/scheme.js");
 
